@@ -32,48 +32,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212;  /* Dark background for dark mode */
-            color: #f0f0f0;  /* Light text color */
+            background-color: #f4f4f4;  
+            color: #333;  
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h2 {
-            color: #e0e0e0;  /* Light grey for the title */
+            color: #333;  
         }
 
         .form-container {
-            background-color: #1f1f1f;  /* Slightly lighter background for form */
+            background-color: #fff;  
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 600px;  /* Increased width for more horizontal space */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 600px;  
             text-align: left;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+
+        .dark-mode .form-container {
+            background-color: #1f1f1f;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         label {
             font-size: 1.1em;
             margin-bottom: 5px;
-            color: #ddd;  /* Lighter text for labels */
+            color: #555;
         }
 
         input[type="text"], textarea {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #333;  /* Dark border */
+            border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: #333;  /* Dark background for inputs */
-            color: #fff;  /* White text inside input fields */
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         input[type="submit"] {
-            background-color: #888;  /* Grey button */
+            background-color: #888;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -85,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         input[type="submit"]:hover {
-            background-color: #666;  /* Darker grey on hover */
+            background-color: #666;
         }
 
         .radio-group {
@@ -94,26 +107,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .radio-group input {
             margin-right: 10px;
-            color: #ddd;
         }
 
         .error {
-            color: #ff4d4d;  /* Red for error messages */
-            font-size: 0.9em;
+            color: #ff4d4d;
         }
 
         .required {
-            color: #ff6347;  /* Tomato color for required fields */
+            color: #ff6347;
         }
 
-        .form-container p {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+        .switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
         }
 
+        .switch input {
+            width: 40px;
+            height: 20px;
+            -webkit-appearance: none;
+            background-color: #ccc;
+            border-radius: 20px;
+            outline: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .switch input:checked {
+            background-color: #4CAF50;
+        }
+
+        .switch input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
     </style>
 </head>
 <body>
+
+<!-- Dark/Light Mode Switch -->
+<div class="switch">
+    <label class="switch">
+        <input type="checkbox" id="modeSwitch">
+        <span class="slider"></span>
+    </label>
+</div>
 
 <div class="form-container">
     <h2>PHP Form</h2>
@@ -142,6 +210,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" name="submit" value="Submit">
     </form>
 </div>
+
+<script>
+    const modeSwitch = document.getElementById("modeSwitch");
+    const body = document.body;
+
+    if (localStorage.getItem("mode") === "dark") {
+        body.classList.add("dark-mode");
+        modeSwitch.checked = true;
+    }
+
+    modeSwitch.addEventListener("change", function() {
+        if (modeSwitch.checked) {
+            body.classList.add("dark-mode");
+            localStorage.setItem("mode", "dark");  
+        } else {
+            body.classList.remove("dark-mode");
+            localStorage.setItem("mode", "light");  
+        }
+    });
+</script>
 
 </body>
 </html>

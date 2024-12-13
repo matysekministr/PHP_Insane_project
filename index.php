@@ -1,7 +1,10 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data and sanitize it
-    $name = htmlspecialchars($_POST['name']);
+    $name = test_input($_POST["name"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+    $nameErr = "Only letters and white space allowed";
+    }
     $email = htmlspecialchars($_POST['email']);
     $website = htmlspecialchars($_POST['website']);
     $comment = htmlspecialchars($_POST['comment']);

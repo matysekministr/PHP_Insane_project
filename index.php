@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #121212;  /* Dark background for dark mode */
+            color: #f0f0f0;  /* Light text color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -42,39 +43,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         h2 {
-            color: #333;
+            color: #e0e0e0;  /* Light grey for the title */
         }
 
         .form-container {
-            background-color: #fff;
-            padding: 20px;
+            background-color: #1f1f1f;  /* Slightly lighter background for form */
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 600px;  /* Increased width for more horizontal space */
             text-align: left;
         }
 
         label {
             font-size: 1.1em;
             margin-bottom: 5px;
-            color: #555;
+            color: #ddd;  /* Lighter text for labels */
         }
 
         input[type="text"], textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
+            border: 1px solid #333;  /* Dark border */
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: #f9f9f9;
+            background-color: #333;  /* Dark background for inputs */
+            color: #fff;  /* White text inside input fields */
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #888;  /* Grey button */
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 1.1em;
             border-radius: 4px;
             cursor: pointer;
@@ -83,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #666;  /* Darker grey on hover */
         }
 
         .radio-group {
@@ -92,15 +94,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .radio-group input {
             margin-right: 10px;
+            color: #ddd;
         }
 
         .error {
-            color: #ff0000;
+            color: #ff4d4d;  /* Red for error messages */
             font-size: 0.9em;
         }
 
         .required {
-            color: red;
+            color: #ff6347;  /* Tomato color for required fields */
         }
 
         .form-container p {

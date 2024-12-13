@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $websiteErr = "Invalid URL";
     };
     $comment = htmlspecialchars($_POST['comment']);
-    $gender = htmlspecialchars($_POST['gender']);
+    $drink = htmlspecialchars($_POST['drink']); // změněno na drink
 
     // Output or process the data here
     echo "<h2>Your Input:</h2>";
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "E-mail: " . $email . "<br>";
     echo "Website: " . $website . "<br>";
     echo "Comment: " . $comment . "<br>";
-    echo "Gender: " . $gender . "<br>";
+    echo "Your drink choice: " . $drink . "<br>"; // Změněno na drink
 }
 ?>
 
@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;  
-            color: #333;  
+            background-color: #f4f4f4;  /* Default light background */
+            color: #333;  /* Default dark text */
             margin: 0;
             padding: 0;
             display: flex;
@@ -44,15 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         h2 {
-            color: #333;  
+            color: #333;  /* Default text color */
         }
 
         .form-container {
-            background-color: #fff;  
+            background-color: #fff;  /* Default light background for form */
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 600px;  
+            width: 600px;  /* Increased width for more horizontal space */
             text-align: left;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
@@ -65,6 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .dark-mode .form-container {
             background-color: #1f1f1f;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode input[type="text"],
+        .dark-mode textarea {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
         }
 
         label {
@@ -201,10 +208,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea name="comment" rows="5" cols="40"></textarea><br>
 
         <div class="radio-group">
-            <label>Gender:</label><br>
-            <input type="radio" name="gender" value="female"> Female
-            <input type="radio" name="gender" value="male"> Male
-            <input type="radio" name="gender" value="other"> Other<br><br>
+            <label>Choose your drink:</label><br>
+            <input type="radio" name="drink" value="coffee"> Coffee
+            <input type="radio" name="drink" value="tea"> Tea<br><br>
         </div>
 
         <input type="submit" name="submit" value="Submit">
@@ -212,21 +218,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script>
+    // Get the mode switch checkbox and body element
     const modeSwitch = document.getElementById("modeSwitch");
     const body = document.body;
 
+    // Check for the stored mode in localStorage and set it
     if (localStorage.getItem("mode") === "dark") {
         body.classList.add("dark-mode");
         modeSwitch.checked = true;
     }
 
+    // Listen for changes in the switch and update mode
     modeSwitch.addEventListener("change", function() {
         if (modeSwitch.checked) {
             body.classList.add("dark-mode");
-            localStorage.setItem("mode", "dark");  
+            localStorage.setItem("mode", "dark");  // Save mode to localStorage
         } else {
             body.classList.remove("dark-mode");
-            localStorage.setItem("mode", "light");  
+            localStorage.setItem("mode", "light");  // Save mode to localStorage
         }
     });
 </script>

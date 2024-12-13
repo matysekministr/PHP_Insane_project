@@ -3,10 +3,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data and sanitize it
     $name = test_input($_POST["name"]);
     if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-    $nameErr = "Only letters and white space allowed";
+        $nameErr = "Pouze písmena a mezery jsou povoleny!!!";
     }
     $email = htmlspecialchars($_POST['email']);
-    $website = htmlspecialchars($_POST['website']);
+    $website = test_input($_POST["website"]);
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+        $websiteErr = "Invalid URL";
+    };
     $comment = htmlspecialchars($_POST['comment']);
     $gender = htmlspecialchars($_POST['gender']);
 

@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Pokud nejsou žádné chyby, zobrazíme zadané údaje v divu
     if (empty($nameErr) && empty($emailErr) && empty($websiteErr) && empty($drinkErr)) {
-        $output = "<h2>Your Input:</h2>";
+        $output = "<h2>Vaše údaje:</h2>";
         $output .= "Name: " . $name . "<br>";
         $output .= "E-mail: " . $email . "<br>";
         $output .= "Website: " . $website . "<br>";
@@ -214,11 +214,11 @@ function test_input($data) {
 </div>
 
 <div class="form-container">
-    <h2>PHP Form</h2>
+    <h2>PHP Formulář</h2>
     <p><span class="error">* required field</span></p>
 
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <label for="name">Name: <span class="required">*</span></label>
+        <label for="name">Jméno: <span class="required">*</span></label>
         <input type="text" name="name" value="<?php echo $name;?>" required><br>
         <span class="error"><?php echo $nameErr; ?></span><br>
 
@@ -226,15 +226,15 @@ function test_input($data) {
         <input type="text" name="email" value="<?php echo $email;?>" required><br>
         <span class="error"><?php echo $emailErr; ?></span><br>
 
-        <label for="website">Website:</label>
+        <label for="website">Webs:</label>
         <input type="text" name="website" value="<?php echo $website;?>"><br>
         <span class="error"><?php echo $websiteErr; ?></span><br>
 
-        <label for="comment">Comment:</label>
+        <label for="comment">Komentář:</label>
         <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea><br>
 
         <div class="radio-group">
-            <label>Choose your drink:</label><br>
+            <label>Zvolte nápoj:</label><br>
             <input type="radio" name="drink" value="coffee" <?php if ($drink == "coffee") echo "checked"; ?>> Coffee
             <input type="radio" name="drink" value="tea" <?php if ($drink == "tea") echo "checked"; ?>> Tea<br>
             <span class="error"><?php echo $drinkErr; ?></span><br>

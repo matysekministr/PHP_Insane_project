@@ -1,10 +1,10 @@
 <?php
-// Initialize error variables
+// Inicializace proměnných pro chyby a data
 $nameErr = $emailErr = $websiteErr = $drinkErr = "";
 $name = $email = $website = $comment = $drink = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data and sanitize it
+    // Ošetření a sanitizace vstupních dat
     $name = test_input($_POST["name"]);
     if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
         $nameErr = "Pouze písmena a mezery jsou povoleny!!!";
@@ -26,14 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $drinkErr = "Prosím vyberte nápoj";
     }
 
-    // Pokud nejsou žádné chyby, zobrazíme zadané údaje
+    // Pokud nejsou žádné chyby, zobrazíme zadané údaje v divu
     if (empty($nameErr) && empty($emailErr) && empty($websiteErr) && empty($drinkErr)) {
-        echo "<h2>Your Input:</h2>";
-        echo "Name: " . $name . "<br>";
-        echo "E-mail: " . $email . "<br>";
-        echo "Website: " . $website . "<br>";
-        echo "Comment: " . $comment . "<br>";
-        echo "Your drink choice: " . $drink . "<br>";
+        $output = "<h2>Your Input:</h2>";
+        $output .= "Name: " . $name . "<br>";
+        $output .= "E-mail: " . $email . "<br>";
+        $output .= "Website: " . $website . "<br>";
+        $output .= "Comment: " . $comment . "<br>";
+        $output .= "Your drink choice: " . $drink . "<br>";
     }
 }
 
@@ -242,6 +242,15 @@ function test_input($data) {
 
         <input type="submit" name="submit" value="Submit">
     </form>
+
+    <!-- Zobrazení zadaných údajů -->
+    <?php
+    if (isset($output)) {
+        echo "<div class='output'>";
+        echo $output;
+        echo "</div>";
+    }
+    ?>
 </div>
 
 <script>

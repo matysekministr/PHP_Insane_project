@@ -116,7 +116,7 @@ function test_input($data) {
             width: 100%;
         }
         input[type="submit"]:hover {
-            background-color: #666;
+            background-color: #667;
         }
         .button-container {
             display: flex;

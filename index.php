@@ -78,11 +78,11 @@ function test_input($data) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP Form Example</title>
     <style>
-        /* Styly zůstávají stejné */
+        /* Obecné nastavení */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #f8f9fa;  /* Světle šedé pozadí */
+            color: #495057;  /* Tmavě šedý text */
             margin: 0;
             padding: 0;
             display: flex;
@@ -91,54 +91,77 @@ function test_input($data) {
             height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #343a40;  /* Tmavý text pro nadpisy */
+        }
+
+        /* Formulář */
         .form-container {
-            background-color: #fff;
+            background-color: #ffffff;  /* Bílé pozadí formuláře */
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 600px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
             text-align: left;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
+
+        /* Tmavý režim */
         .dark-mode {
-            background-color: #121212;
-            color: #f0f0f0;
+            background-color: #343a40;
+            color: #e9ecef;
         }
+
         .dark-mode .form-container {
-            background-color: #1f1f1f;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #495057;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        label {
-            font-size: 1.1em;
-            margin-bottom: 5px;
-            color: #555;
-        }
+
+        /* Vstupy a textová pole */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
+            border: 1px solid #ced4da;
             border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #f8f9fa;
+            color: #495057;
+            transition: background-color 0.3s, color 0.3s;
         }
-        input[type="submit"] {
-            background-color: #888;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 1.1em;
-            border-radius: 4px;
-            cursor: pointer;
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Tlačítka */
+        input[type="submit"], #showJsonBtn {
             width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        input[type="submit"]:hover {
-            background-color: #666;
+
+        input[type="submit"]:hover, #showJsonBtn:hover {
+            background-color: #0056b3;
         }
+
+        /* Chybové zprávy */
         .error {
-            color: #ff4d4d;
+            color: #e63946;
+            font-size: 0.9em;
         }
+
+        /* Přepínač režimu */
         .switch {
             position: absolute;
             top: 20px;
@@ -146,30 +169,35 @@ function test_input($data) {
             display: flex;
             align-items: center;
         }
+
         .switch input {
             width: 40px;
             height: 20px;
             -webkit-appearance: none;
-            background-color: #ccc;
+            background-color: #ced4da;
             border-radius: 20px;
             outline: none;
+            transition: background-color 0.3s;
             cursor: pointer;
         }
+
         .switch input:checked {
             background-color: #4CAF50;
         }
-        .slider {
+
+        .switch .slider {
             position: absolute;
             cursor: pointer;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background-color: #ced4da;
             border-radius: 20px;
             transition: 0.3s;
         }
-        .slider:before {
+
+        .switch .slider:before {
             position: absolute;
             content: "";
             height: 16px;
@@ -180,8 +208,22 @@ function test_input($data) {
             background-color: white;
             transition: 0.3s;
         }
-        input:checked + .slider:before {
+
+        .switch input:checked + .slider:before {
             transform: translateX(20px);
+        }
+
+        /* Zobrazení JSON dat */
+        #jsonContent {
+            background-color: #f1f3f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #343a40;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -233,13 +275,6 @@ function test_input($data) {
         echo "</div>";
     }
     ?>
-
-    <!-- Tlačítko pro zobrazení JSON -->
-    <button id="showJsonBtn">Zobrazit obsah JSON</button>
-
-    <!-- Místo pro zobrazení JSON dat -->
-    <pre id="jsonContent"></pre>
-
 </div>
 
 <script>
@@ -260,21 +295,6 @@ function test_input($data) {
             body.classList.remove("dark-mode");
             localStorage.setItem("mode", "light");
         }
-    });
-
-    // Funkce pro zobrazení obsahu JSON souboru
-    document.getElementById("showJsonBtn").addEventListener("click", function() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "data.json", true);
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                // Zobrazení JSON dat
-                document.getElementById("jsonContent").textContent = JSON.stringify(JSON.parse(xhr.responseText), null, 4);
-            } else {
-                alert("Chyba při načítání souboru!");
-            }
-        };
-        xhr.send();
     });
 </script>
 

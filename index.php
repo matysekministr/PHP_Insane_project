@@ -78,10 +78,11 @@ function test_input($data) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP Form Example</title>
     <style>
+        /* Styly zůstávají stejné */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;  /* Default light background */
-            color: #333;  /* Default dark text */
+            background-color: #f4f4f4;
+            color: #333;
             margin: 0;
             padding: 0;
             display: flex;
@@ -90,44 +91,28 @@ function test_input($data) {
             height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
-
-        h2 {
-            color: #333;  /* Default text color */
-        }
-
         .form-container {
-            background-color: #fff;  /* Default light background for form */
+            background-color: #fff;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 600px;  /* Increased width for more horizontal space */
+            width: 600px;
             text-align: left;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
-
         .dark-mode {
             background-color: #121212;
             color: #f0f0f0;
         }
-
         .dark-mode .form-container {
             background-color: #1f1f1f;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        .dark-mode input[type="text"],
-        .dark-mode textarea {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-        }
-
         label {
             font-size: 1.1em;
             margin-bottom: 5px;
             color: #555;
         }
-
         input[type="text"], textarea {
             width: 100%;
             padding: 12px;
@@ -137,9 +122,7 @@ function test_input($data) {
             box-sizing: border-box;
             background-color: #f9f9f9;
             color: #333;
-            transition: background-color 0.3s, color 0.3s;
         }
-
         input[type="submit"] {
             background-color: #888;
             color: white;
@@ -149,29 +132,13 @@ function test_input($data) {
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s;
         }
-
         input[type="submit"]:hover {
             background-color: #666;
         }
-
-        .radio-group {
-            margin-bottom: 15px;
-        }
-
-        .radio-group input {
-            margin-right: 10px;
-        }
-
         .error {
             color: #ff4d4d;
         }
-
-        .required {
-            color: #ff6347;
-        }
-
         .switch {
             position: absolute;
             top: 20px;
@@ -179,7 +146,6 @@ function test_input($data) {
             display: flex;
             align-items: center;
         }
-
         .switch input {
             width: 40px;
             height: 20px;
@@ -187,18 +153,11 @@ function test_input($data) {
             background-color: #ccc;
             border-radius: 20px;
             outline: none;
-            transition: background-color 0.3s;
             cursor: pointer;
         }
-
         .switch input:checked {
             background-color: #4CAF50;
         }
-
-        .switch input:checked + .slider {
-            background-color: #4CAF50;
-        }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -210,7 +169,6 @@ function test_input($data) {
             border-radius: 20px;
             transition: 0.3s;
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -222,7 +180,6 @@ function test_input($data) {
             background-color: white;
             transition: 0.3s;
         }
-
         input:checked + .slider:before {
             transform: translateX(20px);
         }
@@ -276,6 +233,13 @@ function test_input($data) {
         echo "</div>";
     }
     ?>
+
+    <!-- Tlačítko pro zobrazení JSON -->
+    <button id="showJsonBtn">Zobrazit obsah JSON</button>
+
+    <!-- Místo pro zobrazení JSON dat -->
+    <pre id="jsonContent"></pre>
+
 </div>
 
 <script>
@@ -296,6 +260,21 @@ function test_input($data) {
             body.classList.remove("dark-mode");
             localStorage.setItem("mode", "light");
         }
+    });
+
+    // Funkce pro zobrazení obsahu JSON souboru
+    document.getElementById("showJsonBtn").addEventListener("click", function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "data.json", true);
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                // Zobrazení JSON dat
+                document.getElementById("jsonContent").textContent = JSON.stringify(JSON.parse(xhr.responseText), null, 4);
+            } else {
+                alert("Chyba při načítání souboru!");
+            }
+        };
+        xhr.send();
     });
 </script>
 

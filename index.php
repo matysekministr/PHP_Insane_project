@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data .= "-----------------------------------\n";
 
         // Zapisování do souboru
-        file_put_contents("data.txt", $data, FILE_APPEND);
+        file_put_contents("data.json", $data, FILE_APPEND);
 
         // Výstup pro uživatele
         $output = "<h2>Vaše údaje:</h2>";

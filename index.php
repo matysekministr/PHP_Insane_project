@@ -28,15 +28,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Pokud nejsou žádné chyby, uložíme údaje do souboru
     if (empty($nameErr) && empty($emailErr) && empty($websiteErr) && empty($drinkErr)) {
-        $data = "Name: " . $name . "\n";
-        $data .= "E-mail: " . $email . "\n";
-        $data .= "Website: " . $website . "\n";
-        $data .= "Comment: " . $comment . "\n";
-        $data .= "Your drink choice: " . $drink . "\n";
-        $data .= "-----------------------------------\n";
+        // Vytvoření pole s daty
+        $data = array(
+            "name" => $name,
+            "email" => $email,
+            "website" => $website,
+            "comment" => $comment,
+            "drink" => $drink
+        );
 
-        // Zapisování do souboru
-        file_put_contents("data.json", $data, FILE_APPEND);
+        // Získání existujících dat z JSON souboru, pokud existují
+        $jsonFile = "data.json";
+        if (file_exists($jsonFile)) {
+            $jsonData = file_get_contents($jsonFile);
+            $existingData = json_decode($jsonData, true);
+        } else {
+            $existingData = array();
+        }
+
+        // Přidání nových dat do existujících dat
+        $existingData[] = $data;
+
+        // Uložení všech dat zpět do souboru ve formátu JSON
+        file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT));
 
         // Výstup pro uživatele
         $output = "<h2>Vaše údaje:</h2>";
